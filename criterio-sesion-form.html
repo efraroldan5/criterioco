@@ -1,0 +1,156 @@
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+a { text-decoration: none; }
+.cs { font-family: 'Nunito', sans-serif; width: 100%; padding: 72px 6%; background: transparent; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+.cs-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem, 6vw, 5rem); font-weight: 700; color: #0C3249; line-height: 1.0; letter-spacing: -0.03em; margin-bottom: 20px; text-align: left; }
+.cs-title em { color: #C1521D; font-style: normal; }
+.cs-body { font-size: 1rem; font-weight: 400; color: rgba(12,50,73,0.88); line-height: 1.7; margin-bottom: 40px; text-align: left; max-width: 480px; }
+.cs-body strong { font-weight: 700; color: #0C3249; }
+.cs-form { display: flex; flex-direction: column; gap: 16px; }
+.cs-field-row { display: flex; gap: 12px; }
+.cs-field { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+.cs-field label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(12,50,73,0.65); text-align: left; }
+.cs-field input { background: #fff; border: 1.5px solid rgba(12,50,73,0.35); border-radius: 10px; padding: 13px 16px; font-family: 'Nunito', sans-serif; font-size: 0.9rem; font-weight: 500; color: #0C3249; outline: none; transition: border-color 0.2s; width: 100%; -webkit-appearance: none; appearance: none; }
+.cs-field input::placeholder { color: rgba(12,50,73,0.4); }
+.cs-field input:focus { border-color: #C1521D; }
+.cs-submit { display: inline-flex; align-items: center; justify-content: center; padding: 14px 40px; background: #C1521D; color: #FFF9E3; border: none; border-radius: 60px; font-family: 'Nunito', sans-serif; font-size: 0.9rem; font-weight: 700; cursor: pointer; transition: transform 0.25s ease, background 0.25s ease; align-self: flex-start; margin-top: 4px; }
+.cs-submit:hover { transform: translateY(-3px); background: #d05d24; }
+.cs-submit:disabled { background: rgba(12,50,73,0.2); cursor: not-allowed; transform: none; }
+.cs-disclaimer { font-size: 0.68rem; color: rgba(12,50,73,0.5); line-height: 1.5; text-align: left; }
+.cs-success { display: none; padding: 24px 0; }
+.cs-success p { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 600; color: #0C3249; line-height: 1.6; }
+.cs-success span { display: block; font-family: 'Nunito', sans-serif; font-size: 0.88rem; color: rgba(12,50,73,0.6); margin-top: 8px; }
+.cs-right { display: flex; flex-direction: column; gap: 28px; }
+.cs-card { background: #C1521D; border-radius: 20px; padding: 32px 36px; }
+.cs-card-q { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,249,227,0.65); margin-bottom: 12px; text-align: left; }
+.cs-card-body { font-size: 1rem; font-weight: 400; line-height: 1.7; color: #FFF9E3; text-align: left; }
+.cs-perks { display: flex; flex-direction: column; gap: 16px; }
+.cs-perk { display: flex; align-items: flex-start; gap: 14px; padding-bottom: 16px; border-bottom: 1px solid rgba(12,50,73,0.12); }
+.cs-perk:last-child { border-bottom: none; padding-bottom: 0; }
+.cs-perk-check { width: 22px; height: 22px; flex-shrink: 0; margin-top: 2px; }
+.cs-perk-text { font-size: 0.88rem; font-weight: 400; color: #0C3249; line-height: 1.6; text-align: left; }
+.cs-perk-text strong { color: #0C3249; font-weight: 700; }
+@media (max-width: 860px) {
+  .cs { grid-template-columns: 1fr; gap: 48px; padding: 48px 5%; }
+  .cs-field-row { flex-direction: column; }
+  .cs-submit { align-self: stretch; text-align: center; }
+}
+</style>
+
+<div class="cs">
+  <div>
+    <h2 class="cs-title">Estamos listos,<br><em>¿vos?</em></h2>
+    <p class="cs-body">En una reunión de 30 minutos, analizamos tu empresa bajo la metodología <strong>RAÍZ</strong>. Saldrás con insights concretos para aplicar de inmediato.</p>
+
+    <form class="cs-form" id="cs-form">
+      <div class="cs-field-row">
+        <div class="cs-field">
+          <label for="cs-empresa">Nombre de la Empresa</label>
+          <input type="text" id="cs-empresa" name="empresa" placeholder="Tu empresa" autocomplete="organization" />
+        </div>
+        <div class="cs-field">
+          <label for="cs-sector">Sector</label>
+          <input type="text" id="cs-sector" name="sector" placeholder="Ej. Retail, Servicios..." />
+        </div>
+      </div>
+      <div class="cs-field">
+        <label for="cs-correo">Correo Electrónico</label>
+        <input type="email" id="cs-correo" name="email" placeholder="vos@tuempresa.com" autocomplete="email" />
+      </div>
+      <button type="submit" class="cs-submit" id="cs-submit">Enviar</button>
+      <p class="cs-disclaimer">Sin compromiso. Tu información es confidencial y nunca será compartida.</p>
+    </form>
+
+    <div class="cs-success" id="cs-success">
+      <p>¡Listo, te esperamos!<span>En las próximas horas te escribimos para coordinar tu sesión estratégica. Revisá tu correo — incluyendo la carpeta de spam por si acaso.</span></p>
+    </div>
+  </div>
+
+  <div class="cs-right">
+    <div class="cs-card">
+      <p class="cs-card-q">¿Por qué lo hacemos gratis?</p>
+      <p class="cs-card-body">Criterio nació de las PYMEs. Sabemos que detrás de cada marca hay una familia. Si podemos aportar valor antes de que tomés cualquier decisión, lo hacemos con gusto.</p>
+    </div>
+
+    <div class="cs-perks">
+      <div class="cs-perk">
+        <svg class="cs-perk-check" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#C1521D"/><polyline points="6.5,12.5 10,16 17.5,8.5" stroke="#FFF9E3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        <p class="cs-perk-text"><strong>30 minutos, sin vueltas.</strong> Análisis real de tu negocio bajo la metodología RAÍZ.</p>
+      </div>
+      <div class="cs-perk">
+        <svg class="cs-perk-check" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#C1521D"/><polyline points="6.5,12.5 10,16 17.5,8.5" stroke="#FFF9E3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        <p class="cs-perk-text"><strong>3 hallazgos críticos</strong> sobre tu marca — son tuyos sin importar qué decidás después.</p>
+      </div>
+      <div class="cs-perk">
+        <svg class="cs-perk-check" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#C1521D"/><polyline points="6.5,12.5 10,16 17.5,8.5" stroke="#FFF9E3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        <p class="cs-perk-text"><strong>Sin contratos ni compromisos.</strong> Si resonamos, construimos algo juntos. Si no, igual te llevás valor.</p>
+      </div>
+      <div class="cs-perk">
+        <svg class="cs-perk-check" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="#C1521D"/><polyline points="6.5,12.5 10,16 17.5,8.5" stroke="#FFF9E3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        <p class="cs-perk-text"><strong>15 días de prueba sin costo</strong> si decidís continuar con nosotros.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  var FORMSPREE = 'https://formspree.io/f/xgodldrw';
+
+  function init() {
+    var form    = document.getElementById('cs-form');
+    var submit  = document.getElementById('cs-submit');
+    var success = document.getElementById('cs-success');
+    if (!form) { setTimeout(init, 150); return; }
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var empresa = document.getElementById('cs-empresa').value.trim();
+      var sector  = document.getElementById('cs-sector').value.trim();
+      var correo  = document.getElementById('cs-correo').value.trim();
+
+      if (!empresa || !correo) {
+        alert('Por favor completá el nombre de la empresa y el correo.');
+        return;
+      }
+
+      submit.disabled = true;
+      submit.textContent = 'Enviando...';
+
+      fetch(FORMSPREE, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          empresa:  empresa,
+          sector:   sector,
+          email:    correo,
+          _subject: 'Nueva sesión estratégica — ' + empresa
+        })
+      })
+      .then(function(res) {
+        if (res.ok) {
+          form.style.display = 'none';
+          success.style.display = 'block';
+        } else {
+          submit.disabled = false;
+          submit.textContent = 'Enviar';
+          alert('Algo salió mal. Intentá de nuevo.');
+        }
+      })
+      .catch(function() {
+        submit.disabled = false;
+        submit.textContent = 'Enviar';
+        alert('Error de conexión. Intentá de nuevo.');
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
