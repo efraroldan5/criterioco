@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<title>Criterio Co</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --navy: #0c3249;
+  --navy-deep: #081e2c;
+  --cream: #fff9e3;
+  --cream-muted: rgba(255,249,227,0.55);
+  --cream-faint: rgba(255,249,227,0.12);
+  --terra: #c1521d;
+  --terra-hover: #d05d24;
+  --navy-muted: rgba(12,50,73,0.7);
+  --navy-faint: rgba(12,50,73,0.08);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--navy);
+  color: var(--cream);
+  font-family: 'Nunito', sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── MENÚ ANCLADO ── */
+#menu-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+  width: 44px;
+  height: 44px;
+  background: rgba(8,30,46,0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,249,227,0.12);
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.2s ease;
+}
+#menu-btn:active { background: rgba(8,30,46,0.9); }
+#menu-btn span {
+  display: block;
+  width: 18px;
+  height: 1.5px;
+  background: var(--cream);
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform-origin: center;
+}
+#menu-btn.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+#menu-btn.open span:nth-child(2) { opacity: 0; }
+#menu-btn.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+#nav-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: rgba(8,30,46,0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+#nav-overlay.visible { opacity: 1; pointer-events: all; }
+
+.nav-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 40px;
+}
+
+.nav-link {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: var(--cream);
+  text-decoration: none;
+  letter-spacing: -0.01em;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: color 0.2s ease, opacity 0.3s ease, transform 0.3s ease;
+}
+.nav-link.accent { color: var(--terra); }
+.nav-link:active { color: var(--terra); }
+
+#nav-overlay.visible .nav-link:nth-child(1) { animation: navIn 0.3s ease 0.05s forwards; }
+#nav-overlay.visible .nav-link:nth-child(2) { animation: navIn 0.3s ease 0.1s forwards; }
+#nav-overlay.visible .nav-link:nth-child(3) { animation: navIn 0.3s ease 0.15s forwards; }
+#nav-overlay.visible .nav-link:nth-child(4) { animation: navIn 0.3s ease 0.2s forwards; }
+#nav-overlay.visible .nav-link:nth-child(5) { animation: navIn 0.3s ease 0.25s forwards; }
+
+@keyframes navIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.nav-social {
+  display: flex;
+  gap: 24px;
+  opacity: 0;
+}
+#nav-overlay.visible .nav-social { animation: navIn 0.3s ease 0.33s forwards; }
+
+.nav-social a {
+  color: rgba(255,249,227,0.5);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.nav-social a:active { color: var(--cream); }
+.nav-social svg { width: 22px; height: 22px; fill: currentColor; }
+
+/* ── SPLASH ── */
+#splash {
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  background: var(--navy);
+}
+
+.splash-glow {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(193,82,29,0.06) 0%, transparent 70%);
+  animation: breathe 5s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes breathe {
+  0%,100% { transform: scale(1); opacity: 0.5; }
+  50%      { transform: scale(1.1); opacity: 1; }
+}
+
+.splash-logo {
+  width: 150px;
+  height: auto;
+  position: relative;
+  z-index: 2;
+  animation: logoIn 1s cubic-bezier(0.22,1,0.36,1) both;
+}
+@keyframes logoIn {
+  from { opacity: 0; transform: scale(0.88) translateY(10px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.splash-hint {
+  position: absolute;
+  bottom: 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 1.5s forwards;
+}
+.splash-hint span {
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  color: var(--cream-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.scroll-line {
+  width: 1px;
+  height: 28px;
+  background: linear-gradient(to bottom, rgba(255,249,227,0.4), transparent);
+  animation: linePulse 2s ease-in-out infinite;
+}
+@keyframes linePulse {
+  0%,100% { opacity: 0.4; transform: scaleY(1); }
+  50%      { opacity: 0.9; transform: scaleY(1.15); }
+}
+
+/* ── HERO CON ROTATIVO ── */
+#hero {
+  background: var(--cream);
+  padding: 80px 28px 80px;
+  position: relative;
+}
+
+.hero-inner { width: 100%; }
+
+.ch-headline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.8rem, 11vw, 4.5rem);
+  font-weight: 700;
+  line-height: 1.05;
+  color: var(--navy);
+  letter-spacing: -0.03em;
+  display: block;
+}
+
+.ch-rw {
+  display: inline-block;
+  overflow: hidden;
+  height: 1.35em;
+  vertical-align: bottom;
+}
+.ch-ri {
+  display: flex;
+  flex-direction: column;
+  animation: chSlide 60s cubic-bezier(0.76,0,0.24,1) infinite;
+}
+.ch-word {
+  display: flex;
+  align-items: center;
+  height: 1.35em;
+  color: var(--terra);
+  white-space: nowrap;
+  padding: 0.15em 0;
+}
+.ch-static {
+  display: block;
+  color: var(--navy);
+  font-size: 0.38em;
+  margin-top: 0.15em;
+  letter-spacing: -0.01em;
+  font-weight: 600;
+}
+
+@keyframes chSlide {
+  0%,2.5%      { transform: translateY(0%); }
+  3.33%,5.8%   { transform: translateY(-3.333%); }
+  6.66%,9.1%   { transform: translateY(-6.666%); }
+  10%,12.5%    { transform: translateY(-10%); }
+  13.33%,15.8% { transform: translateY(-13.333%); }
+  16.66%,19.1% { transform: translateY(-16.666%); }
+  20%,22.5%    { transform: translateY(-20%); }
+  23.33%,25.8% { transform: translateY(-23.333%); }
+  26.66%,29.1% { transform: translateY(-26.666%); }
+  30%,32.5%    { transform: translateY(-30%); }
+  33.33%,35.8% { transform: translateY(-33.333%); }
+  36.66%,39.1% { transform: translateY(-36.666%); }
+  40%,42.5%    { transform: translateY(-40%); }
+  43.33%,45.8% { transform: translateY(-43.333%); }
+  46.66%,49.1% { transform: translateY(-46.666%); }
+  50%,52.5%    { transform: translateY(-50%); }
+  53.33%,55.8% { transform: translateY(-53.333%); }
+  56.66%,59.1% { transform: translateY(-56.666%); }
+  60%,62.5%    { transform: translateY(-60%); }
+  63.33%,65.8% { transform: translateY(-63.333%); }
+  66.66%,69.1% { transform: translateY(-66.666%); }
+  70%,72.5%    { transform: translateY(-70%); }
+  73.33%,75.8% { transform: translateY(-73.333%); }
+  76.66%,79.1% { transform: translateY(-76.666%); }
+  80%,82.5%    { transform: translateY(-80%); }
+  83.33%,85.8% { transform: translateY(-83.333%); }
+  86.66%,89.1% { transform: translateY(-86.666%); }
+  90%,92.5%    { transform: translateY(-90%); }
+  93.33%,95.8% { transform: translateY(-93.333%); }
+  96.66%,100%  { transform: translateY(-96.666%); }
+}
+
+.hero-sub {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.65;
+  color: var(--navy-muted);
+  margin-top: 2rem;
+  max-width: 360px;
+}
+.hero-sub strong { font-weight: 700; color: var(--navy); }
+
+.hero-ctas {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 2.4rem;
+  max-width: 320px;
+}
+
+.btn {
+  padding: 16px 28px;
+  border-radius: 999px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 0.88rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  text-align: center;
+  display: block;
+  transition: transform 0.2s ease, background 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn-primary { background: var(--terra); color: var(--cream); border: none; }
+.btn-primary:active { background: var(--terra-hover); transform: scale(0.98); }
+.btn-secondary { background: transparent; color: var(--navy); border: 1.5px solid rgba(12,50,73,0.25); }
+.btn-secondary:active { border-color: var(--terra); color: var(--terra); transform: scale(0.98); }
+
+/* ── CONTEXTO (antes "Problema") ── */
+#contexto {
+  background: var(--navy);
+  padding: 88px 28px;
+}
+
+.section-label {
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  color: var(--terra);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 32px;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.section-label.visible { opacity: 1; transform: translateY(0); }
+
+.contexto-heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.8rem, 6.5vw, 2.4rem);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--cream);
+  margin-bottom: 24px;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.8s ease 0.05s, transform 0.8s ease 0.05s;
+}
+.contexto-heading.visible { opacity: 1; transform: translateY(0); }
+
+.contexto-body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.contexto-p {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: var(--cream-muted);
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.contexto-p.visible { opacity: 1; transform: translateY(0); }
+.contexto-p:nth-child(2) { transition-delay: 0.1s; }
+.contexto-p em {
+  font-style: italic;
+  color: var(--cream);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1em;
+}
+
+/* ── RAÍZ ── */
+#raiz {
+  background: var(--cream);
+  padding: 88px 28px;
+}
+
+.raiz-heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.8rem, 6.5vw, 2.4rem);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--navy);
+  margin-bottom: 8px;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.8s ease 0.05s, transform 0.8s ease 0.05s;
+}
+.raiz-heading.visible { opacity: 1; transform: translateY(0); }
+
+.raiz-sub {
+  font-size: 0.9rem;
+  color: var(--navy-muted);
+  line-height: 1.6;
+  margin-bottom: 40px;
+  opacity: 0;
+  transition: opacity 0.7s ease 0.1s;
+}
+.raiz-sub.visible { opacity: 1; }
+
+.raiz-label-navy {
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  color: var(--terra);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 32px;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.raiz-label-navy.visible { opacity: 1; transform: translateY(0); }
+
+.raiz-pilares {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid rgba(12,50,73,0.1);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.pilar {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 24px 24px;
+  border-bottom: 1px solid rgba(12,50,73,0.07);
+  background: white;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.pilar:last-child { border-bottom: none; }
+.pilar.visible { opacity: 1; transform: translateY(0); }
+.pilar:nth-child(2) { transition-delay: 0.08s; }
+.pilar:nth-child(3) { transition-delay: 0.16s; }
+.pilar:nth-child(4) { transition-delay: 0.24s; }
+
+.pilar-letter {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--terra);
+  line-height: 1;
+  min-width: 36px;
+  padding-top: 2px;
+}
+
+.pilar-text strong {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+.pilar-text p {
+  font-size: 0.85rem;
+  color: var(--navy-muted);
+  line-height: 1.6;
+}
+
+/* ── CASO ── */
+#caso {
+  background: var(--navy);
+  padding: 88px 28px;
+}
+
+.caso-card {
+  border: 1px solid rgba(255,249,227,0.1);
+  border-radius: 20px;
+  overflow: hidden;
+  margin-top: 32px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease 0.1s, transform 0.8s ease 0.1s;
+}
+.caso-card.visible { opacity: 1; transform: translateY(0); }
+
+.caso-header {
+  background: rgba(193,82,29,0.1);
+  padding: 28px 28px 22px;
+  border-bottom: 1px solid rgba(255,249,227,0.07);
+}
+.caso-brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--cream);
+  margin-bottom: 4px;
+  font-style: italic;
+}
+.caso-tag {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--terra);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.caso-body {
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.caso-block strong {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: rgba(255,249,227,0.4);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+.caso-block p {
+  font-size: 0.93rem;
+  line-height: 1.65;
+  color: var(--cream);
+}
+.caso-divider {
+  height: 1px;
+  background: rgba(255,249,227,0.06);
+}
+
+/* ── CTA SECTION ── */
+#cta-section {
+  background: var(--cream);
+  padding: 88px 28px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 7.5vw, 2.8rem);
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--navy);
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.8s ease 0.05s, transform 0.8s ease 0.05s;
+}
+.cta-heading.visible { opacity: 1; transform: translateY(0); }
+
+.cta-sub {
+  font-size: 0.9rem;
+  color: var(--navy-muted);
+  line-height: 1.65;
+  max-width: 300px;
+  opacity: 0;
+  transition: opacity 0.7s ease 0.15s;
+}
+.cta-sub.visible { opacity: 1; }
+
+.cta-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 300px;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.7s ease 0.25s, transform 0.7s ease 0.25s;
+}
+.cta-btns.visible { opacity: 1; transform: translateY(0); }
+
+.btn-primary-navy { background: var(--navy); color: var(--cream); border: none; }
+.btn-primary-navy:active { background: var(--navy-deep); transform: scale(0.98); }
+.btn-secondary-navy { background: transparent; color: var(--navy); border: 1.5px solid rgba(12,50,73,0.22); }
+.btn-secondary-navy:active { border-color: var(--terra); color: var(--terra); transform: scale(0.98); }
+
+.cta-footnote {
+  font-size: 11px;
+  color: rgba(12,50,73,0.35);
+  letter-spacing: 0.04em;
+  opacity: 0;
+  transition: opacity 0.6s ease 0.4s;
+}
+.cta-footnote.visible { opacity: 1; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--navy-deep);
+  padding: 56px 28px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.footer-logo img {
+  width: 100px;
+  height: auto;
+  opacity: 0.9;
+}
+
+.footer-tagline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--cream-muted);
+  margin-top: 12px;
+  line-height: 1.5;
+}
+
+.footer-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px 20px;
+  grid-template-rows: auto auto;
+}
+.footer-cols .footer-col:last-child {
+  grid-column: 1 / -1;
+}
+
+.footer-col-title {
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  color: var(--terra);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.footer-col a {
+  display: block;
+  font-size: 0.88rem;
+  color: var(--cream-muted);
+  text-decoration: none;
+  margin-bottom: 10px;
+  transition: color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.footer-col a:active { color: var(--cream); }
+
+.footer-divider {
+  height: 1px;
+  background: rgba(255,249,227,0.07);
+}
+
+.footer-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.footer-social {
+  display: flex;
+  gap: 20px;
+}
+.footer-social a {
+  color: rgba(255,249,227,0.4);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.footer-social a:active { color: var(--cream); }
+.footer-social svg { width: 20px; height: 20px; fill: currentColor; }
+
+.footer-copy {
+  font-size: 11px;
+  color: rgba(255,249,227,0.2);
+  letter-spacing: 0.04em;
+  line-height: 1.6;
+}
+
+/* ── UTILS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+</style>
+</head>
+<body>
+
+<!-- MENÚ BTN -->
+<button id="menu-btn" aria-label="Abrir menú">
+  <span></span><span></span><span></span>
+</button>
+
+<!-- NAV OVERLAY -->
+<div id="nav-overlay">
+  <nav class="nav-links">
+    <a class="nav-link" href="https://m.criterioco.com/#nosotros">Quiénes Somos</a>
+    <a class="nav-link" href="https://m.criterioco.com/#servicios">Nuestros Servicios</a>
+    <a class="nav-link" href="https://m.criterioco.com/#portfolio">Portfolio</a>
+    <a class="nav-link accent" href="https://m.criterioco.com/#sesion">Sesión Gratis</a>
+    <a class="nav-link" href="https://m.criterioco.com/#faq">FAQ</a>
+  </nav>
+  <div class="nav-social">
+    <a href="https://wa.me/50662565656" target="_blank" rel="noopener" aria-label="WhatsApp">
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+    </a>
+    <a href="https://instagram.com/criteriocr" target="_blank" rel="noopener" aria-label="Instagram">
+      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.17.054 1.97.24 2.427.403a4.9 4.9 0 0 1 1.772 1.153 4.9 4.9 0 0 1 1.153 1.772c.163.456.35 1.257.403 2.427.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.054 1.17-.24 1.97-.403 2.427a4.9 4.9 0 0 1-1.153 1.772 4.9 4.9 0 0 1-1.772 1.153c-.456.163-1.257.35-2.427.403-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.17-.054-1.97-.24-2.427-.403a4.9 4.9 0 0 1-1.772-1.153 4.9 4.9 0 0 1-1.153-1.772c-.163-.456-.35-1.257-.403-2.427C2.175 15.747 2.163 15.367 2.163 12s.012-3.584.07-4.85c.054-1.17.24-1.97.403-2.427a4.9 4.9 0 0 1 1.153-1.772A4.9 4.9 0 0 1 5.561 2.566c.456-.163 1.257-.35 2.427-.403C9.254 2.175 9.634 2.163 12 2.163zm0 1.802c-3.162 0-3.52.012-4.76.069-1.07.049-1.652.226-2.04.375a3.1 3.1 0 0 0-1.148.747 3.1 3.1 0 0 0-.747 1.148c-.149.388-.326.97-.375 2.04C2.977 9.48 2.965 9.838 2.965 12s.012 2.52.069 3.76c.049 1.07.226 1.652.375 2.04.174.465.41.858.747 1.148.29.337.683.573 1.148.747.388.149.97.326 2.04.375 1.24.057 1.598.069 4.76.069s3.52-.012 4.76-.069c1.07-.049 1.652-.226 2.04-.375a3.1 3.1 0 0 0 1.148-.747 3.1 3.1 0 0 0 .747-1.148c.149-.388.326-.97.375-2.04.057-1.24.069-1.598.069-3.76s-.012-2.52-.069-3.76c-.049-1.07-.226-1.652-.375-2.04a3.1 3.1 0 0 0-.747-1.148 3.1 3.1 0 0 0-1.148-.747c-.388-.149-.97-.326-2.04-.375-1.24-.057-1.598-.069-4.76-.069zm0 3.065a4.972 4.972 0 1 1 0 9.944 4.972 4.972 0 0 1 0-9.944zm0 1.802a3.17 3.17 0 1 0 0 6.34 3.17 3.17 0 0 0 0-6.34zm5.156-3.21a1.16 1.16 0 1 1 0 2.32 1.16 1.16 0 0 1 0-2.32z"/></svg>
+    </a>
+    <a href="https://linkedin.com/company/criterioco" target="_blank" rel="noopener" aria-label="LinkedIn">
+      <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+    </a>
+    <a href="mailto:contacto@criterioco.com" aria-label="Email">
+      <svg viewBox="0 0 24 24"><path d="M20 4H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
+    </a>
+  </div>
+</div>
+
+<!-- SPLASH -->
+<section id="splash">
+  <div class="splash-glow"></div>
+  <img class="splash-logo"
+    src="https://raw.githubusercontent.com/efraroldan5/criterioco/refs/heads/main/CO%20on%20dark.png"
+    alt="Criterio Co"/>
+  <div class="splash-hint">
+    <span>deslizá</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- HERO ROTATIVO -->
+<section id="hero">
+  <div class="hero-inner">
+    <h1 class="ch-headline">
+      <span class="ch-rw">
+        <span class="ch-ri">
+          <span class="ch-word">Estrategia.</span>
+          <span class="ch-word">Diseño.</span>
+          <span class="ch-word">Identidad.</span>
+          <span class="ch-word">Ventas.</span>
+          <span class="ch-word">Propósito.</span>
+          <span class="ch-word">Marca.</span>
+          <span class="ch-word">Pauta.</span>
+          <span class="ch-word">Análisis.</span>
+          <span class="ch-word">Crecimiento.</span>
+          <span class="ch-word">Conversión.</span>
+          <span class="ch-word">Presencia.</span>
+          <span class="ch-word">Contenido.</span>
+          <span class="ch-word">Estrategia.</span>
+          <span class="ch-word">Diseño.</span>
+          <span class="ch-word">Identidad.</span>
+          <span class="ch-word">Ventas.</span>
+          <span class="ch-word">Propósito.</span>
+          <span class="ch-word">Marca.</span>
+          <span class="ch-word">Pauta.</span>
+          <span class="ch-word">Análisis.</span>
+          <span class="ch-word">Crecimiento.</span>
+          <span class="ch-word">Conversión.</span>
+          <span class="ch-word">Presencia.</span>
+          <span class="ch-word">Contenido.</span>
+        </span>
+      </span>
+      <span class="ch-static">Para tu negocio, con Criterio.</span>
+    </h1>
+    <p class="hero-sub">
+      Existimos para PYMEs que creen en el potencial de su idea.<br>
+      Ayudamos a construir marcas que <strong>compiten por valor, no por precio.</strong>
+    </p>
+    <div class="hero-ctas">
+      <a href="#sesionestrategica" class="btn btn-primary">Sesión Estratégica Gratis</a>
+      <a href="#raiz" class="btn btn-secondary">¿Por dónde empezamos?</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTEXTO -->
+<section id="contexto">
+  <span class="section-label">El contexto</span>
+  <h2 class="contexto-heading">Las marcas que más valen son las que menos tiempo tuvieron para construirse bien.</h2>
+  <div class="contexto-body">
+    <p class="contexto-p">La mayoría de las PYMEs tienen entre tres y cinco años para encontrar su posicionamiento real antes de que el mercado las empuje a competir únicamente por precio. Ese es el tiempo que existe para construir algo que dure.</p>
+    <p class="contexto-p">El problema no es la falta de talento ni de producto. Es que gran parte de la industria del marketing está diseñada para producir contenido visible, no para <em>posicionar empresas como referentes.</em> Publicar mucho no es lo mismo que comunicar con dirección.</p>
+    <p class="contexto-p">Criterio Co existe para ese momento — cuando una marca entiende que necesita más que presencia, necesita criterio.</p>
+  </div>
+</section>
+
+<!-- RAÍZ -->
+<section id="raiz">
+  <span class="raiz-label-navy">Metodología RAÍZ</span>
+  <h2 class="raiz-heading">Cuatro pilares. Un solo norte.</h2>
+  <p class="raiz-sub">Todo proyecto de Criterio Co pasa por este marco sin excepción. La diferencia entre planes es la profundidad, nunca la presencia de estos pilares.</p>
+  <div class="raiz-pilares">
+    <div class="pilar">
+      <span class="pilar-letter">R</span>
+      <div class="pilar-text">
+        <strong>Razonamiento Estratégico</strong>
+        <p>Diagnosticamos antes de proponer. El análisis define el norte del proyecto y evita invertir en direcciones equivocadas.</p>
+      </div>
+    </div>
+    <div class="pilar">
+      <span class="pilar-letter">A</span>
+      <div class="pilar-text">
+        <strong>Alianza sin Cadenas</strong>
+        <p>Trabajamos sin contratos que amarren. Si generamos valor, vas a querer continuar. Esa alineación nos obliga a entregar resultados reales.</p>
+      </div>
+    </div>
+    <div class="pilar">
+      <span class="pilar-letter">Í</span>
+      <div class="pilar-text">
+        <strong>Identidad con Criterio</strong>
+        <p>Construimos identidades que dicen lo correcto a las personas correctas — diseñadas para sostenerse, no para seguir la estética del mes.</p>
+      </div>
+    </div>
+    <div class="pilar">
+      <span class="pilar-letter">Z</span>
+      <div class="pilar-text">
+        <strong>Zona de Impacto Real</strong>
+        <p>Todo lo que producimos responde a una intención, apunta a un público específico y forma parte de una narrativa mayor.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CASO -->
+<section id="caso">
+  <span class="section-label">Trabajo en curso</span>
+  <div class="caso-card">
+    <div class="caso-header">
+      <p class="caso-brand">Nombre en Desarrollo</p>
+      <span class="caso-tag">Rebranding · En proceso</span>
+    </div>
+    <div class="caso-body">
+      <div class="caso-block">
+        <strong>El proyecto</strong>
+        <p>Rebranding integral de una marca costarricense en etapa de reposicionamiento. Incluye nueva identidad visual, construcción de Instagram grid store y estrategia de contenido para el lanzamiento.</p>
+      </div>
+      <div class="caso-divider"></div>
+      <div class="caso-block">
+        <strong>Lo que estamos construyendo</strong>
+        <p>Sistema de marca completo, imagen renovada y una presencia digital diseñada para comunicar valor antes de que el cliente llegue al precio.</p>
+      </div>
+      <div class="caso-divider"></div>
+      <div class="caso-block">
+        <strong>Estado actual</strong>
+        <p>En desarrollo activo. Resultados y caso completo disponibles próximamente.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta-section">
+  <span class="section-label" style="color: var(--terra);">Sin costo. Sin compromiso.</span>
+  <h2 class="cta-heading">30 minutos que definen el norte de tu marca.</h2>
+  <p class="cta-sub">Te entregamos 3 insights accionables basados en tu negocio real. Son tuyos — los ejecutés con nosotros o no.</p>
+  <div class="cta-btns">
+    <a href="#sesionestrategica" class="btn btn-primary-navy">Agendá tu sesión gratis</a>
+    <a href="#caso" class="btn btn-secondary-navy">Ver nuestro trabajo</a>
+  </div>
+  <p class="cta-footnote">Primer mes de acompañamiento sin costo si decidís continuar.</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <img src="https://raw.githubusercontent.com/efraroldan5/criterioco/refs/heads/main/CO%20on%20dark.png" alt="Criterio Co"/>
+    <p class="footer-tagline">Marketing de fondo<br>para marcas costarricenses.</p>
+  </div>
+
+  <div class="footer-cols">
+    <div class="footer-col">
+      <p class="footer-col-title">Navegar</p>
+      <a href="https://m.criterioco.com/#nosotros">Quiénes somos</a>
+      <a href="https://m.criterioco.com/#servicios">Servicios</a>
+      <a href="https://m.criterioco.com/#portfolio">Portfolio</a>
+      <a href="https://m.criterioco.com/#sesion">Sesión Gratis</a>
+      <a href="https://m.criterioco.com/#faq">FAQ</a>
+    </div>
+    <div class="footer-col">
+      <p class="footer-col-title">Contacto</p>
+      <a href="mailto:contacto@criterioco.com">contacto@criterioco.com</a>
+      <a href="https://wa.me/50662565656" target="_blank" rel="noopener">WhatsApp</a>
+      <a href="https://instagram.com/criteriocr" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://linkedin.com/company/criterioco" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+    <div class="footer-col">
+      <p class="footer-col-title">Legal</p>
+      <a href="https://m.criterioco.com/#terminos">Términos de servicio</a>
+      <a href="https://m.criterioco.com/#politicas">Política de privacidad</a>
+    </div>
+  </div>
+
+  <div class="footer-divider"></div>
+
+  <div class="footer-bottom">
+    <div class="footer-social">
+      <a href="https://wa.me/50662565656" target="_blank" rel="noopener" aria-label="WhatsApp">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+      </a>
+      <a href="https://instagram.com/criteriocr" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.17.054 1.97.24 2.427.403a4.9 4.9 0 0 1 1.772 1.153 4.9 4.9 0 0 1 1.153 1.772c.163.456.35 1.257.403 2.427.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.054 1.17-.24 1.97-.403 2.427a4.9 4.9 0 0 1-1.153 1.772 4.9 4.9 0 0 1-1.772 1.153c-.456.163-1.257.35-2.427.403-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.17-.054-1.97-.24-2.427-.403a4.9 4.9 0 0 1-1.772-1.153 4.9 4.9 0 0 1-1.153-1.772c-.163-.456-.35-1.257-.403-2.427C2.175 15.747 2.163 15.367 2.163 12s.012-3.584.07-4.85c.054-1.17.24-1.97.403-2.427a4.9 4.9 0 0 1 1.153-1.772A4.9 4.9 0 0 1 5.561 2.566c.456-.163 1.257-.35 2.427-.403C9.254 2.175 9.634 2.163 12 2.163zm0 1.802c-3.162 0-3.52.012-4.76.069-1.07.049-1.652.226-2.04.375a3.1 3.1 0 0 0-1.148.747 3.1 3.1 0 0 0-.747 1.148c-.149.388-.326.97-.375 2.04C2.977 9.48 2.965 9.838 2.965 12s.012 2.52.069 3.76c.049 1.07.226 1.652.375 2.04.174.465.41.858.747 1.148.29.337.683.573 1.148.747.388.149.97.326 2.04.375 1.24.057 1.598.069 4.76.069s3.52-.012 4.76-.069c1.07-.049 1.652-.226 2.04-.375a3.1 3.1 0 0 0 1.148-.747 3.1 3.1 0 0 0 .747-1.148c.149-.388.326-.97.375-2.04.057-1.24.069-1.598.069-3.76s-.012-2.52-.069-3.76c-.049-1.07-.226-1.652-.375-2.04a3.1 3.1 0 0 0-.747-1.148 3.1 3.1 0 0 0-1.148-.747c-.388-.149-.97-.326-2.04-.375-1.24-.057-1.598-.069-4.76-.069zm0 3.065a4.972 4.972 0 1 1 0 9.944 4.972 4.972 0 0 1 0-9.944zm0 1.802a3.17 3.17 0 1 0 0 6.34 3.17 3.17 0 0 0 0-6.34zm5.156-3.21a1.16 1.16 0 1 1 0 2.32 1.16 1.16 0 0 1 0-2.32z"/></svg>
+      </a>
+      <a href="https://linkedin.com/company/criterioco" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+      <a href="mailto:contacto@criterioco.com" aria-label="Email">
+        <svg viewBox="0 0 24 24"><path d="M20 4H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
+      </a>
+    </div>
+    <p class="footer-copy">© 2026 Criterio Co. Todos los derechos reservados.<br>San José, Costa Rica.</p>
+  </div>
+</footer>
+
+<script>
+const menuBtn = document.getElementById('menu-btn');
+const navOverlay = document.getElementById('nav-overlay');
+
+menuBtn.addEventListener('click', () => {
+  menuBtn.classList.toggle('open');
+  navOverlay.classList.toggle('visible');
+});
+
+navOverlay.addEventListener('click', (e) => {
+  if (!e.target.closest('.nav-links') && !e.target.closest('.nav-social')) {
+    menuBtn.classList.remove('open');
+    navOverlay.classList.remove('visible');
+  }
+});
+
+document.querySelectorAll('.nav-link').forEach(link => {
+  link.addEventListener('click', () => {
+    menuBtn.classList.remove('open');
+    navOverlay.classList.remove('visible');
+  });
+});
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(el => { if (el.isIntersecting) el.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+
+document.querySelectorAll(
+  '.section-label, .raiz-label-navy, .contexto-heading, .contexto-p, .raiz-heading, .raiz-sub, .pilar, .caso-card, .cta-heading, .cta-sub, .cta-btns, .cta-footnote'
+).forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
