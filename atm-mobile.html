@@ -7,11 +7,13 @@
 }
 #atm {
   background: #FFF9E3;
-  padding: 0 0 100px;
-  padding-top: 0;
+  padding: 0;
   font-family: 'Nunito', sans-serif;
   color: #0C3249;
   width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 /* ── CATEGORY DROPDOWN ── */
@@ -86,15 +88,15 @@
 /* ── SUMMARY BAR — stacked on mobile ── */
 #atm .summary-bar {
   position: sticky; bottom: 0;
-  background: #0C3249;
-  border-top: 2px solid rgba(255,249,227,0.15);
-  padding: 14px 16px;
+  background: #C9521D;
+  border-top: none;
+  padding: 16px 16px;
   display: flex;
   flex-direction: column;
   gap: 12px;
   margin-top: 0; border-radius: 0; z-index: 10;
 }
-#atm .summary-count { font-size: 0.78rem; color: rgba(255,249,227,0.5); }
+#atm .summary-count { font-size: 0.78rem; color: rgba(255,249,227,0.7); }
 #atm .summary-count span { font-weight: 700; color: #FFF9E3; }
 #atm .summary-total {
   font-family: 'Cormorant Garamond', serif;
@@ -108,11 +110,11 @@
 }
 
 #atm .toggle-wrap { display: flex; align-items: center; gap: 10px; }
-#atm .toggle-label { font-size: 0.75rem; color: rgba(255,249,227,0.6); line-height: 1.3; }
+#atm .toggle-label { font-size: 0.75rem; color: rgba(255,249,227,0.85); line-height: 1.3; }
 #atm .toggle-label strong { color: #FFF9E3; }
 #atm .toggle {
   width: 38px; height: 20px;
-  background: rgba(255,249,227,0.15);
+  background: rgba(255,249,227,0.25);
   border-radius: 10px; position: relative;
   cursor: pointer; transition: background .25s;
   flex-shrink: 0; border: none;
@@ -130,7 +132,7 @@
 #atm .atm-btn {
   display: flex; align-items: center; justify-content: center; gap: 10px;
   width: 100%;
-  background: #C1521D; color: #FFF9E3;
+  background: #FFF9E3; color: #C9521D;
   font-family: 'Nunito', sans-serif; font-size: 12px; font-weight: 700;
   letter-spacing: 1.5px; text-transform: uppercase;
   padding: 16px 28px; border-radius: 50px; border: none;
@@ -139,8 +141,8 @@
   transition: background .2s, opacity .2s;
 }
 #atm .atm-btn:disabled {
-  background: rgba(255,249,227,0.1);
-  color: rgba(255,249,227,0.3);
+  background: rgba(255,249,227,0.25);
+  color: rgba(255,249,227,0.5);
   cursor: not-allowed;
 }
 
@@ -234,6 +236,7 @@
     <span style="font-family:'Nunito',sans-serif;font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,249,227,0.6);">A Tu Manera</span>
   </div>
 
+  <div id="atm-cats" style="flex:1;padding-bottom:16px;">
   <!-- DIAGNOSTICO -->
   <div class="cat-block">
     <div class="cat-header"><span class="cat-label">Diagnóstico &amp; Estrategia</span><span class="cat-arrow">▾</span></div>
@@ -322,13 +325,15 @@
     </div>
   </div>
 
+  </div><!-- /atm-cats -->
+
   <!-- SUMMARY BAR -->
   <div class="summary-bar">
     <div class="summary-count"><span id="atm-count">0</span> entregables seleccionados</div>
     <div class="summary-total" id="atm-total">₡0</div>
     <div class="toggle-wrap">
       <button class="toggle" id="atm-toggle" aria-label="Primera vez con Criterio"></button>
-      <div class="toggle-label">Primera vez con <strong>Criterio</strong><br><span style="color:#C1521D;font-size:0.72rem;" id="atm-discount-label"></span></div>
+      <div class="toggle-label">Primera vez con <strong>Criterio</strong><br><span style="color:#FFF9E3;font-size:0.72rem;font-weight:700;" id="atm-discount-label"></span></div>
     </div>
     <button class="atm-btn" id="atm-cta" disabled>
       Armar mi propuesta
