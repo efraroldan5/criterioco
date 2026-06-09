@@ -1,0 +1,414 @@
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+#crit-ent *, #crit-ent *::before, #crit-ent *::after {
+box-sizing: border-box; margin: 0; padding: 0;
+text-align: left !important;
+}
+#crit-ent {
+background: transparent;
+padding: 60px 20px 80px;
+font-family: 'Nunito', sans-serif;
+color: #FFF9E3;
+width: 100%;
+}
+#crit-ent .ent-inner {
+max-width: 1280px;
+margin: 0 auto;
+}
+
+/* ── TABS ── */
+#crit-ent .tabs {
+display: flex;
+border-bottom: 2px solid rgba(255,249,227,0.55);
+margin-bottom: 48px;
+overflow-x: auto;
+scrollbar-width: none;
+}
+#crit-ent .tabs::-webkit-scrollbar { display: none; }
+
+#crit-ent .tab-btn {
+background: none; border: none; cursor: pointer;
+font-family: 'Nunito', sans-serif;
+font-size: 14px; font-weight: 700;
+letter-spacing: 1.5px; text-transform: uppercase;
+color: rgba(255,249,227,0.65);
+padding: 20px 8px;
+white-space: nowrap;
+position: relative;
+transition: color .25s;
+flex: 1;
+text-align: center !important;
+}
+#crit-ent .tab-btn::before {
+content: '';
+position: absolute;
+inset: 0;
+background: rgba(255,249,227,0.03);
+opacity: 0;
+transition: opacity .2s;
+border-radius: 4px 4px 0 0;
+}
+#crit-ent .tab-btn:hover::before { opacity: 1; }
+#crit-ent .tab-btn::after {
+content: '';
+position: absolute;
+bottom: -2px; left: 0;
+width: 0; height: 3px;
+background: #C1521D;
+transition: width .3s ease;
+}
+#crit-ent .tab-btn.active { color: #C1521D; }
+#crit-ent .tab-btn.active::after { width: 100%; }
+#crit-ent .tab-btn:hover { color: #FFF9E3; }
+
+/* ── PANEL ── */
+#crit-ent .tab-panel { display: none; }
+#crit-ent .tab-panel.active {
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+gap: 16px;
+animation: panelIn .3s ease-out both;
+}
+@keyframes panelIn {
+from { opacity: 0; transform: translateY(10px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── CARD BASE ── */
+#crit-ent .ent-card {
+padding: 36px;
+border-radius: 8px;
+display: flex;
+flex-direction: column;
+gap: 12px;
+position: relative;
+transition: border-color .2s;
+}
+#crit-ent .ent-card.full { grid-column: 1 / -1; }
+
+/* ── CREAM CARDS (default) ── */
+#crit-ent .ent-card:not(.featured) {
+background: #FFF9E3;
+border: 1px solid rgba(12,50,73,0.10);
+}
+#crit-ent .ent-card:not(.featured):hover {
+border-color: rgba(12,50,73,0.22);
+}
+#crit-ent .ent-card:not(.featured) .ent-name {
+color: #0C3249;
+}
+#crit-ent .ent-card:not(.featured) .ent-desc {
+color: rgba(12,50,73,0.70);
+}
+#crit-ent .ent-card:not(.featured) .ent-why {
+color: rgba(12,50,73,0.45);
+border-top-color: rgba(12,50,73,0.10);
+}
+#crit-ent .ent-card:not(.featured) .ent-price-row {
+border-top-color: rgba(12,50,73,0.10);
+}
+#crit-ent .ent-card:not(.featured) .ent-price {
+color: #0C3249;
+}
+#crit-ent .ent-card:not(.featured) .ent-std {
+color: rgba(12,50,73,0.28);
+}
+
+/* ── FEATURED CARD (Reporte de Impacto — unchanged) ── */
+#crit-ent .ent-card.featured {
+background: rgba(193,82,29,0.07);
+border: 1px solid rgba(193,82,29,0.2);
+}
+#crit-ent .ent-card.featured .ent-name { color: #FFF9E3; }
+#crit-ent .ent-card.featured .ent-desc { color: rgba(255,249,227,0.58); }
+#crit-ent .ent-card.featured .ent-why { color: rgba(255,249,227,0.38); border-top-color: rgba(255,249,227,0.07); }
+#crit-ent .ent-card.featured .ent-price-row { border-top-color: rgba(255,249,227,0.08); }
+#crit-ent .ent-card.featured .ent-std { color: rgba(255,249,227,0.25); }
+
+/* ── SHARED TYPOGRAPHY ── */
+#crit-ent .ent-badge {
+display: inline-flex; align-items: center; gap: 5px;
+font-size: 9px; font-weight: 700; letter-spacing: 2px;
+text-transform: uppercase; color: #C1521D;
+margin-bottom: 4px; width: fit-content;
+}
+#crit-ent .ent-badge::before {
+content: ''; width: 16px; height: 1.5px; background: #C1521D;
+}
+#crit-ent .ent-name {
+font-family: 'Cormorant Garamond', serif;
+font-size: 1.35rem; font-weight: 600;
+line-height: 1.15;
+}
+#crit-ent .ent-desc {
+font-size: 0.88rem; line-height: 1.7;
+flex: 1;
+}
+#crit-ent .ent-why {
+font-size: 0.82rem; font-style: italic;
+line-height: 1.55;
+padding-top: 8px;
+border-top-width: 1px;
+border-top-style: solid;
+}
+#crit-ent .ent-price-row {
+display: flex; align-items: baseline; gap: 10px;
+padding-top: 12px;
+border-top-width: 1px;
+border-top-style: solid;
+margin-top: auto;
+}
+#crit-ent .ent-price {
+font-family: 'Cormorant Garamond', serif;
+font-size: 1.5rem; font-weight: 700;
+}
+#crit-ent .ent-price.included {
+font-size: 1rem; font-style: italic;
+color: #C1521D;
+}
+#crit-ent .ent-std {
+font-size: 0.78rem;
+text-decoration: line-through;
+}
+
+/* footnote */
+#crit-ent .ent-footnote {
+margin-top: 32px;
+font-size: 0.75rem;
+color: rgba(255,249,227,0.25);
+font-style: italic;
+border-top: 1px solid rgba(255,249,227,0.07);
+padding-top: 16px;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 720px) {
+#crit-ent { padding: 40px 20px 60px; }
+#crit-ent .tab-panel.active { grid-template-columns: 1fr; }
+#crit-ent .ent-card.full { grid-column: 1; }
+#crit-ent .tab-btn { padding: 12px 16px 12px 0; font-size: 10px; }
+}
+</style>
+
+<div id="crit-ent">
+<div class="ent-inner">
+
+<!-- Tabs -->
+<div class="tabs" role="tablist">
+<button class="tab-btn active" data-tab="diagnostico">Diagnóstico</button>
+<button class="tab-btn" data-tab="identidad">Identidad & Diseño</button>
+<button class="tab-btn" data-tab="contenido">Contenido & Presencia</button>
+<button class="tab-btn" data-tab="pauta">Pauta</button>
+</div>
+
+<!-- ── DIAGNÓSTICO ── -->
+<div class="tab-panel active" id="tab-diagnostico">
+
+<div class="ent-card featured full">
+<span class="ent-badge">Incluido en planes +1 mes</span>
+<span class="ent-name">Reporte de Impacto</span>
+<p class="ent-desc">Análisis mensual de resultados con métricas clave, evaluación de lo ejecutado y hoja de ruta para el siguiente periodo.</p>
+<p class="ent-why">Saber exactamente qué está funcionando y qué ajustar — con datos, no suposiciones.</p>
+<div class="ent-price-row">
+<span class="ent-price included">Incluido en planes de más de un mes</span>
+<span class="ent-std">₡80,000–₡150,000</span>
+</div>
+</div>
+
+<div class="ent-card">
+<span class="ent-name">Diagnóstico de Marca</span>
+<p class="ent-desc">Auditoría profunda del posicionamiento actual, tono de comunicación, análisis de datos como benchmarking competitivo y puntos ciegos estratégicos.</p>
+<p class="ent-why">Antes de invertir en cualquier cosa, hay que saber exactamente dónde está parado el negocio.</p>
+<div class="ent-price-row">
+<span class="ent-price">₡87,000</span>
+<span class="ent-std">₡165,000–₡247,000</span>
+</div>
+</div>
+
+<div class="ent-card">
+<span class="ent-name">Estudio de Mercado</span>
+<p class="ent-desc">Análisis de competidores directos e indirectos, perfil del cliente ideal, tendencias del sector y oportunidades de diferenciación.</p>
+<p class="ent-why">Conocer a quién le hablás y contra quién competís — sin suposiciones, con datos reales del mercado costarricense.</p>
+<div class="ent-price-row">
+<span class="ent-price">₡107,000</span>
+<span class="ent-std">₡247,000–₡385,000</span>
+</div>
+</div>
+
+</div>
+
+<!-- ── IDENTIDAD & DISEÑO ── -->
+<div class="tab-panel" id="tab-identidad">
+
+<div class="ent-card">
+<span class="ent-name">Identidad Visual</span>
+<p class="ent-desc">Logo, paleta de colores, tipografía, tono de comunicación y manual de uso completo — todo lo que define cómo se ve y se siente la marca.</p>
+<p class="ent-why">La base de todo. Sin identidad clara, cada pieza de comunicación habla un idioma distinto.</p>
+<div class="ent-price-row">
+<span class="ent-price">₡330,000</span>
+<span class="ent-std">₡550,000–₡990,000</span>
+</div>
+</div>
+
+<div class="ent-card">
+<span class="ent-name">Renovación Visual</span>
+<p class="ent-desc">Refinamiento del logo y sistema visual existente. Modernización, consistencia y archivos finales listos para todos los formatos.</p>
+<p class="ent-why">Para marcas que ya tienen algo construido pero necesitan actualizarse sin perder el reconocimiento ganado.</p>
+<div class="ent-price-row">
+<span class="ent-price">₡137,000</span>
+<span class="ent-std">₡275,000–₡495,000</span>
+</div>
+</div>
+
+<div class="ent-card">
+<span class="ent-name">Diseño Web</span>
+<p class="ent-desc">Sitio web optimizado para conversión, velocidad y alineado a la identidad de la marca. Podemos crear tu tienda en línea o plataforma oficial.</p>
+<p class="ent-why">Tu vendedor disponible 24/7. Muchos clientes te buscan en Google antes de llamarte — y lo primero que ven importa.</p>
+<div class="ent-price-row">
+<span class="ent-price">₡412,000</span>
+<span class="ent-std">₡660,000–₡1,375,000</span>
+</div>
+</div>
+
+<div class="ent-card">
+<span class="ent-name">Plantillas Personalizadas</span>
+<p class="ent-desc">Templates editables en Canva diseñados específicamente para ese negocio — posts, stories, flyers y más, listos para usar.</p>
+<p class="ent-why">Publicar con consistencia visual sin depender de un diseñador cada vez que salga una promoción.</p>
+<div class="ent-price-row">
+<span class="ent-price">₡82,000</span>
+<span class="ent-std">₡165,000–₡275,000</span>
+</div>
+</div>
+
+<div class="ent-card">
+<span class="ent-name">Diseños para Redes Sociales</span>
+<p class="ent-desc">Piezas gráficas puntuales para posts, stories, banners y promociones digitales con coherencia visual de marca.</p>
+<p class="ent-why">Para cuando necesitás un material específico sin contratar un paquete completo.</p>
+<div class="ent-price-row">
+<span class="ent-price">₡27,500 / pieza</span>
+<span class="ent-std">₡41,000–₡82,000</span>
+</div>
+</div>
+
+<div class="ent-card">
+<span class="ent-name">Diseños para Pauta y Exteriores</span>
+<p class="ent-desc">Diseño para anuncios digitales, vallas, mupis, posters y material impreso de alto impacto. Formatos listos para cada medio.</p>
+<p class="ent-why">Presencia física y digital que llama la atención donde está tu cliente — con el mensaje correcto en el formato correcto.</p>
+<div class="ent-price-row">
+<span class="ent-price">₡82,000 / pieza</span>
+<span class="ent-std">₡137,000–₡275,000</span>
+</div>
+</div>
+
+</div>
+
+<!-- ── CONTENIDO & PRESENCIA ── -->
+<div class="tab-panel" id="tab-contenido">
+
+<div class="ent-card">
+<span class="ent-name">Calendario Editorial</span>
+<p class="ent-desc">Pilares de contenido, formatos, frecuencia de publicación y 10 ideas listas para ejecutar cada mes — con tema, copy sugerido y contexto cultural.</p>
+<p class="ent-why">Dejar de publicar al azar. Cada post con propósito, planificado con anticipación, sin improvisar a último momento.</p>
+<div class="ent-price-row">
+<span class="ent-price">₡82,000 / mes</span>
+<span class="ent-std">₡192,000–₡330,000</span>
+</div>
+</div>
+
+<div class="ent-card">
+<span class="ent-name">Producción Visual</span>
+<p class="ent-desc">Sesión de foto y video profesional para redes sociales, lanzamiento de producto, campaña puntual o actualización de contenido.</p>
+<p class="ent-why">Contenido propio y de calidad cuando lo necesitás — sin un contrato mensual fijo ni improvisar con fotos del teléfono.</p>
+<div class="ent-price-row">
+<span class="ent-price">₡80,000 / día</span>
+<span class="ent-std">₡137,000–₡247,000</span>
+</div>
+</div>
+
+<div class="ent-card">
+<span class="ent-name">Manejo de Redes y Automatización</span>
+<p class="ent-desc">Gestión completa de redes sociales — publicación, respuesta, consistencia visual — más automatizaciones para seguimiento de leads y mensajes.</p>
+<p class="ent-why">Para no perder clientes por falta de tiempo. El negocio responde y da seguimiento aunque vos no estés disponible.</p>
+<div class="ent-price-row">
+<span class="ent-price">₡200,000 / mes</span>
+<span class="ent-std">₡275,000–₡660,000</span>
+</div>
+</div>
+
+<div class="ent-card">
+<span class="ent-name">Posicionamiento en Google</span>
+<p class="ent-desc">Optimización del sitio web y perfil de Google Business para aparecer cuando te buscan — en búsquedas y en Google Maps con información correcta y actualizada.</p>
+<p class="ent-why">Clientes que ya están buscando lo que ofrecés — sin pagar por cada clic y con presencia local visible en Maps.</p>
+<div class="ent-price-row">
+<span class="ent-price">₡497,000 / trimestre</span>
+<span class="ent-std">₡275,000–₡550,000</span>
+</div>
+</div>
+
+</div>
+
+<!-- ── PAUTA ── -->
+<div class="tab-panel" id="tab-pauta">
+
+<div class="ent-card">
+<span class="ent-name">Pauta Digital</span>
+<p class="ent-desc">Estrategia, configuración y gestión de campañas en Meta (Facebook e Instagram) y Google. Incluye definición de público meta, creativos, pixel, seguimiento y reportes mensuales.</p>
+<p class="ent-why">Invertir en pauta sin estrategia es botar plata. Esto asegura que cada colón llegue a la persona correcta en el momento correcto.</p>
+<div class="ent-price-row">
+<span class="ent-price">Desde ₡185,000 / mes</span>
+<span class="ent-std">₡275,000–₡550,000</span>
+</div>
+</div>
+
+<div class="ent-card">
+<span class="ent-name">Pauta Exterior y Medios</span>
+<p class="ent-desc">Planificación y gestión de pauta en radio, vallas, mupis, posters y medios impresos. Coordinación con medios, negociación de espacios y seguimiento de campaña.</p>
+<p class="ent-why">Presencia donde tu cliente está físicamente — especialmente efectivo para negocios locales que quieren dominar su zona.</p>
+<div class="ent-price-row">
+<span class="ent-price">Desde ₡220,000 / campaña</span>
+<span class="ent-std">₡330,000–₡825,000</span>
+</div>
+</div>
+
+<div class="ent-card full">
+<span class="ent-name">Marketing con Creadores</span>
+<p class="ent-desc">Identificación, contacto y gestión de colaboraciones con influencers y cuentas relevantes en el ámbito digital costarricense — desde microinfluencers de nicho hasta perfiles de mayor alcance. Incluye brief, coordinación de contenido y seguimiento de resultados.</p>
+<p class="ent-why">Llegar a audiencias ya construidas y con confianza ganada. Un creador que recomienda tu marca vale más que un anuncio — porque lo dice alguien en quien confían.</p>
+<div class="ent-price-row">
+<span class="ent-price">A cotizar según perfil y alcance</span>
+</div>
+</div>
+
+</div>
+
+<p class="ent-footnote">* Precios de referencia basados en el Tarifario Nacional 2025 y auditorías de mercado de servicios profesionales en Costa Rica. Precio Criterio no incluye presupuesto de pauta o producción externa.</p>
+
+</div>
+</div>
+
+<script>
+(function() {
+function init() {
+var el = document.getElementById('crit-ent');
+if (!el) { setTimeout(init, 150); return; }
+var btns = el.querySelectorAll('.tab-btn');
+var panels = el.querySelectorAll('.tab-panel');
+btns.forEach(function(btn) {
+btn.addEventListener('click', function() {
+var target = btn.getAttribute('data-tab');
+btns.forEach(function(b) { b.classList.remove('active'); });
+panels.forEach(function(p) { p.classList.remove('active'); });
+btn.classList.add('active');
+var panel = document.getElementById('tab-' + target);
+if (panel) panel.classList.add('active');
+});
+});
+}
+if (document.readyState === 'loading') {
+document.addEventListener('DOMContentLoaded', init);
+} else {
+init();
+}
+})();
+</script>
