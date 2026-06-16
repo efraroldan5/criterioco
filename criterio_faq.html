@@ -1,0 +1,100 @@
+<style>
+#crit-faq*,#crit-faq *::before,#crit-faq *::after{box-sizing:border-box;margin:0;padding:0}
+#crit-faq{background:transparent;padding:80px 40px 100px;font-family:'Nunito',sans-serif;color:#FFF9E3;width:100%}
+#crit-faq .faq-header{max-width:1060px;margin:0 auto 64px}
+#crit-faq .faq-label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#C1521D;display:block;margin-bottom:14px}
+#crit-faq .faq-title{font-family:'Bright',serif;font-size:clamp(2.4rem,4vw,3.8rem);font-weight:400;line-height:1.05;color:#FFF9E3}
+#crit-faq .faq-title em{font-style:italic;color:#C1521D}
+#crit-faq .faq-list{max-width:1060px;margin:0 auto}
+#crit-faq details{border-top:1px solid rgba(255,249,227,0.15);position:relative;overflow:hidden}
+#crit-faq details:last-child{border-bottom:1px solid rgba(255,249,227,0.15)}
+#crit-faq details::before{content:'';position:absolute;left:0;top:0;width:0;height:1px;background:#C1521D;transition:width 0.4s ease}
+#crit-faq details:hover::before,#crit-faq details[open]::before{width:100%}
+#crit-faq summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:2rem;padding:28px 0;cursor:pointer;outline:none;user-select:none}
+#crit-faq summary::-webkit-details-marker{display:none}
+#crit-faq .faq-q{font-family:'Bright',serif;font-size:clamp(1.15rem,2vw,1.45rem);font-weight:400;color:#FFF9E3;line-height:1.2;transition:color 0.2s;flex:1}
+#crit-faq .faq-icon{width:32px;height:32px;border-radius:50%;border:1.5px solid rgba(255,249,227,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color 0.25s,background 0.25s,transform 0.35s cubic-bezier(0.34,1.56,0.64,1);position:relative}
+#crit-faq details[open] .faq-icon{border-color:#C1521D;background:#C1521D;transform:rotate(45deg)}
+#crit-faq .faq-icon::before,#crit-faq .faq-icon::after{content:'';position:absolute;background:rgba(255,249,227,0.7);border-radius:2px;transition:background 0.25s}
+#crit-faq .faq-icon::before{width:12px;height:1.5px}
+#crit-faq .faq-icon::after{width:1.5px;height:12px}
+#crit-faq details[open] .faq-icon::before,#crit-faq details[open] .faq-icon::after{background:#FFF9E3}
+#crit-faq .faq-a{font-family:'Nunito',sans-serif;font-size:1rem;line-height:1.78;color:rgba(255,249,227,0.72);padding:0 48px 28px 0;max-width:820px;animation:faqOpen 0.35s ease-out both}
+#crit-faq .faq-a strong{color:#FFF9E3;font-weight:700}
+@keyframes faqOpen{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:820px){#crit-faq{padding:60px 20px 80px}#crit-faq .faq-a{padding-right:0}}
+</style>
+
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<div id="crit-faq">
+  <div class="faq-header">
+    <span class="faq-label">Preguntas frecuentes</span>
+    <h2 class="faq-title">Lo que querés saber<br><em>antes de agendar</em></h2>
+  </div>
+
+  <div class="faq-list">
+
+    <details>
+      <summary><span class="faq-q">¿Qué pasa después de la Sesión Criterio?</span><span class="faq-icon"></span></summary>
+      <p class="faq-a">Te llevás el análisis y los hallazgos de tu negocio — son tuyos para ejecutarlos como mejor te parezca. Si al terminar la sesión decidís que querés seguir trabajando juntos, te presentamos una propuesta construida específicamente sobre lo que encontramos. Los primeros 15 días de acompañamiento formal son para que validés la metodología con tu propio negocio.</p>
+    </details>
+
+    <details>
+      <summary><span class="faq-q">¿Funciona para PYMEs con presupuesto ajustado?</span><span class="faq-icon"></span></summary>
+      <p class="faq-a">Sí. Nuestros precios están diseñados para la realidad de las PYMEs en Costa Rica, y la estructura del proceso — diagnóstico primero, propuesta después — existe precisamente para que ningún colón se invierta en algo que no tiene sentido para tu etapa actual.</p>
+    </details>
+
+    <details>
+      <summary><span class="faq-q">¿Cuándo empiezo a ver resultados?</span><span class="faq-icon"></span></summary>
+      <p class="faq-a">Depende del tipo de trabajo. Cambios en identidad visual y estrategia de contenido generan impacto visible desde las primeras semanas. El posicionamiento de marca es un proceso más largo, pero construye algo que dura.</p>
+    </details>
+
+    <details>
+      <summary><span class="faq-q">¿Las reuniones son presenciales o virtuales?</span><span class="faq-icon"></span></summary>
+      <p class="faq-a">Virtuales por defecto, vía Google Meet. Así garantizamos puntualidad y optimizamos el tiempo de todos. Para proyectos que lo requieran, coordinamos sesiones presenciales según la necesidad.</p>
+    </details>
+
+    <details>
+      <summary><span class="faq-q">¿Por qué estrategia de marca y no solo redes sociales?</span><span class="faq-icon"></span></summary>
+      <p class="faq-a">Publicar contenido sin una base estratégica produce visibilidad sin dirección. Antes de definir qué publicar y dónde, necesitamos entender qué comunica tu marca hoy, a quién le está hablando, y qué debería estar pasando que no está pasando.</p>
+    </details>
+
+    <details>
+      <summary><span class="faq-q">¿Trabajan con negocios de cualquier industria?</span><span class="faq-icon"></span></summary>
+      <p class="faq-a">Sí. Hemos trabajado con retail, alimentos, deporte y moda. Lo que importa no es el sector — es que el negocio tenga algo real que ofrecer y quiera comunicarlo con claridad.</p>
+    </details>
+
+    <details>
+      <summary><span class="faq-q">¿Qué incluye la propuesta que me presentan?</span><span class="faq-icon"></span></summary>
+      <p class="faq-a">Depende del diagnóstico. Puede incluir identidad visual, estrategia de contenido, rediseño de materiales, presencia digital o una combinación de varios. Nada es genérico — cada propuesta se construye sobre lo que encontramos en la sesión.</p>
+    </details>
+
+    <details>
+      <summary><span class="faq-q">¿Puedo contratar solo un entregable puntual?</span><span class="faq-icon"></span></summary>
+      <p class="faq-a">Sí. Trabajamos tanto en proyectos específicos — un menú, una identidad visual, un sistema de contenido — como en acompañamiento continuo. Lo definimos juntos en la sesión, según lo que tu negocio necesita ahora.</p>
+    </details>
+
+    <details>
+      <summary><span class="faq-q">¿Manejan contratos?</span><span class="faq-icon"></span></summary>
+      <p class="faq-a">Sí. Trabajamos con un acuerdo que pone por escrito los alcances, los entregables y los tiempos del proyecto. Está ahí para que ambas partes tengan claridad desde el primer día.</p>
+    </details>
+
+  </div>
+</div>
+
+<script>
+(function(){
+  function init(){
+    var faq=document.getElementById('crit-faq');
+    if(!faq){setTimeout(init,150);return}
+    var items=faq.querySelectorAll('details');
+    items.forEach(function(d){
+      d.addEventListener('toggle',function(){
+        if(d.open){items.forEach(function(o){if(o!==d&&o.open)o.removeAttribute('open')})}
+      });
+    });
+  }
+  document.readyState==='loading'?document.addEventListener('DOMContentLoaded',init):init();
+})();
+</script>
